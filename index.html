@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Neo4j | Gartner D&amp;A London Invitation</title>
+
+  <style>
+    :root{
+      /* Required background */
+      --baltic:#002B43;
+
+      /* Text */
+      --cream:#F2EAD4;
+      --ink: rgba(242,234,212,.92);
+      --ink-muted: rgba(242,234,212,.72);
+
+      /* Accents */
+      --baltic-200:#8FE3E8;
+
+      /* Ticket */
+      --gold-0:#FFF3B0;
+      --gold-1:#F6D365;
+      --gold-2:#D4A017;
+      --gold-3:#8A5A00;
+
+      --wrap: 980px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ink);
+      background: var(--baltic);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      overflow-x:hidden;
+    }
+
+    /* 3P Node background artwork */
+    .bgNode{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-1;
+      opacity:.95;
+      background: url("3P Node.png") no-repeat;
+      background-position: right bottom;
+      background-size: min(42vw, 520px) auto;
+    }
+
+    /* Optional subtle fade so text stays readable */
+    .bgVignette{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-1;
+      background:
+        radial-gradient(900px 700px at 70% 30%, rgba(0,0,0,0), rgba(0,0,0,.28) 60%, rgba(0,0,0,.48) 85%);
+      mix-blend-mode: multiply;
+    }
+
+    .wrap{max-width: var(--wrap); margin:0 auto; padding: 26px 18px 80px;}
+
+    /* Top logo */
+    .brand{
+      display:flex;
+      justify-content:center;
+      padding: 18px 0 26px;
+    }
+
+    .neo4jLogo{
+      display:block;
+      width: 240px; /* ~2x larger than previous placeholder */
+      height:auto;
+    }
+
+    /* Main content column */
+    .stack{
+      display:flex;
+      flex-direction:column;
+      gap: 46px; /* more open since we removed section boxes */
+      align-items:stretch;
+    }
+
+    /* No boxes around sections */
+    section{padding:0; margin:0;}
+
+    .welcome{ text-align:center; padding-top: 6px; }
+
+    .eyebrow{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color: rgba(242,234,212,.78);
+    }
+
+    .dot{width:7px;height:7px;border-radius:50%; background: var(--baltic-200); box-shadow: 0 0 18px rgba(143,227,232,.55)}
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: 46px;
+      line-height: 1.05;
+      letter-spacing: -0.9px;
+    }
+
+    p.lead{
+      margin: 0 auto;
+      max-width: 74ch;
+      color: #FFFFFF;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    /* Golden ticket section */
+    .ticketStage{ display:grid; place-items:center; padding: 6px 0 0; }
+
+    .ticket{
+      width:min(760px, 96%);
+      aspect-ratio: 16/7.1;
+      border-radius: 18px;
+      position:relative;
+      transform-style: preserve-3d;
+      background:
+        radial-gradient(260px 180px at 20% 30%, rgba(255,243,176,.95), rgba(246,211,101,.0) 70%),
+        linear-gradient(135deg, var(--gold-0), var(--gold-1) 30%, var(--gold-2) 62%, var(--gold-3));
+      box-shadow:
+        0 30px 70px rgba(0,0,0,.42),
+        inset 0 0 0 1px rgba(0,0,0,.28);
+      overflow:hidden;
+      animation: float 4.6s ease-in-out infinite;
+    }
+
+    /* Notches like a real ticket */
+    .ticket:before,
+    .ticket:after{
+      content:"";
+      position:absolute;
+      top:50%;
+      width:40px;height:40px;
+      border-radius:50%;
+      transform: translateY(-50%);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.22);
+      background: rgba(0,0,0,0);
+    }
+    .ticket:before{left:-20px;}
+    .ticket:after{right:-20px;}
+
+    /* Shimmer sweep */
+    .ticket .shine{
+      position:absolute;
+      inset:-30% -30% -30% -30%;
+      background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.45) 48%, transparent 62%);
+      transform: translateX(-60%) rotate(8deg);
+      animation: sweep 2.4s ease-in-out infinite;
+      mix-blend-mode: soft-light;
+      opacity:.78;
+    }
+
+    .ticket .frame{
+      position:absolute;
+      inset:14px;
+      border-radius: 14px;
+      border: 1px dashed rgba(0,0,0,.35);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+      opacity:.9;
+    }
+
+    .ticket .content{
+      position:absolute;
+      inset:0;
+      display:grid;
+      grid-template-columns: 1fr auto;
+      align-items:center;
+      padding: 18px 22px;
+      gap:14px;
+    }
+
+    .ticket h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color: rgba(0,0,0,.78);
+      text-shadow: 0 1px 0 rgba(255,255,255,.35);
+    }
+
+    .ticket .big{
+      margin: 10px 0 0;
+      font-size: 34px;
+      letter-spacing: -0.4px;
+      color: rgba(0,0,0,.86);
+      font-weight: 900;
+      text-shadow: 0 1px 0 rgba(255,255,255,.32);
+    }
+
+    .ticket .meta{
+      margin-top: 10px;
+      color: rgba(0,0,0,.72);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .admit{ justify-self:end; display:grid; gap:8px; text-align:right; }
+
+    .stamp{
+      display:inline-flex;
+      justify-content:flex-end;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.30);
+      background: rgba(255,255,255,.14);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.14);
+    }
+
+    .stamp b{
+      font-size: 14px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color: rgba(0,0,0,.78);
+    }
+
+    .serial{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      color: rgba(0,0,0,.70);
+    }
+
+    @keyframes sweep{
+      0%{ transform: translateX(-60%) rotate(8deg); }
+      60%{ transform: translateX(35%) rotate(8deg); }
+      100%{ transform: translateX(60%) rotate(8deg); }
+    }
+
+    @keyframes float{
+      0%,100%{ transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+      50%{ transform: translateY(-10px) rotateX(2deg) rotateY(-2deg); }
+    }
+
+    /* Overview (no boxed cards) */
+    .overview{
+      display:grid;
+      gap: 14px;
+      justify-items:center;
+      text-align:center;
+    }
+
+    .kicker{
+      display:inline-block;
+      font-size: 18px; /* increased by 50% */
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(143,227,232,.90);
+      margin-bottom: 4px;
+    }
+
+    .overview h2{ margin:0; font-size:22px; letter-spacing:-.2px; }
+    .overview p{ margin:0; color: var(--ink-muted); line-height: 1.7; max-width: 78ch; }
+
+    .bullets{
+      width:min(820px, 96%);
+      text-align:left;
+      margin-top: 10px;
+      padding-left: 18px;
+      color: var(--ink-muted);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+    .bullets b{color: var(--cream)}
+
+    /* Closing */
+    .thanks{ text-align:center; }
+    .thanks h2{ margin:0 0 10px; font-size:24px; letter-spacing:-.2px; }
+    .thanks p{ margin:0 auto; max-width: 78ch; color: var(--ink-muted); line-height: 1.75; }
+
+    /* Responsive */
+    @media (max-width: 820px){
+      h1{font-size: 38px}
+      .ticket .big{font-size: 30px}
+      .ticket{aspect-ratio: 16/8.4;}
+      .bgNode{ background-position: right bottom; background-size: min(52vw, 440px) auto; }
+      .neo4jLogo{ width: 220px; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .ticket{animation:none}
+      .ticket .shine{animation:none}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bgNode" aria-hidden="true"></div>
+  <div class="bgVignette" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="brand" aria-label="Neo4j logo">
+      <img class="neo4jLogo" src="Logo_White_TransBG 750x486.png" alt="Neo4j" />
+    </div>
+
+    <div class="stack">
+      <!-- Welcome -->
+      <section class="welcome">
+        <div class="eyebrow">Invitation • Gartner D&amp;A London</div>
+        <h1>Your invitation to Gartner D&amp;A London, courtesy of Neo4j</h1>
+        <p class="lead">
+          We’re excited to invite you to join us in London for a curated set of experiences around the conference, designed for meaningful conversations, practical takeaways (and some great food).
+        </p>
+      </section>
+
+      <!-- Animated golden ticket -->
+      <section class="ticketStage" aria-label="Animated golden ticket">
+        <div class="ticket" role="img" aria-label="Golden ticket that reads admit one">
+          <div class="shine"></div>
+          <div class="frame"></div>
+          <div class="content">
+            <div>
+              <h2>Golden Ticket</h2>
+              <div class="big">Gartner D&amp;A London</div>
+              <div class="meta">Provided by Neo4j • Includes conference access and accommodation.</div>
+            </div>
+            <div class="admit">
+              <div class="stamp"><b>Admit One</b></div>
+              <div class="serial">NEO4J • VIP • 2026</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Overview -->
+      <section class="overview" aria-label="Overview">
+        <div>
+          <div class="kicker">Your experience</div>
+          <h2>What’s included, and what we’d love you to join.</h2>
+        </div>
+        <p>
+          We’ll take care of the essentials—then add a couple of high-value moments to connect with peers and the Neo4j team.
+        </p>
+
+        <ul class="bullets">
+          <li><b>Conference pass</b>: full access to Gartner D&amp;A London.</li>
+          <li><b>Hotel accommodation</b>: covered by Neo4j — <b>10 May</b> (check-in) to <b>13 May</b> (check-out) at <b>Aloft London Excel</b>.</li>
+          <li><b>Dinner</b>: <b>11 May</b> (evening) at <b>The Ivy, Canary Wharf</b>.</li>
+          <li><b>Boardroom session</b>: <b>From Data to Intelligence Architecture</b> — Context Graphs for AI Agents. <b>Date &amp; time: TBC</b>.</li>
+        </ul>
+      </section>
+
+      <!-- Thank you -->
+      <section class="thanks" aria-label="Thank you">
+        <h2>Thank you, we’re excited to host you.</h2>
+        <p>
+          We’re really looking forward to having you with us at the event, and to spending time together outside the conference.
+          More details (including timings and logistics) will be confirmed shortly.</p>
+        <p style="margin-top:28px; font-size:24px; letter-spacing:-.2px; font-weight:600; color:var(--cream);">Your Neo4j Team</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
