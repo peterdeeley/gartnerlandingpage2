@@ -273,6 +273,34 @@
     }
     .bullets b{color: var(--cream)}
 
+    /* Accept ticket button */
+    .acceptBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin: 20px auto 28px;
+      width: min(190px, 24vw); /* ~1/4 ticket width */
+      height: 60px; /* approx 1/4 ticket height */
+      border-radius:12px;
+      font-weight:700;
+      letter-spacing:.04em;
+      color: rgba(0,0,0,.85);
+      background:
+        radial-gradient(140px 80px at 20% 30%, rgba(255,243,176,.95), rgba(246,211,101,.0) 70%),
+        linear-gradient(135deg, var(--gold-0), var(--gold-1) 30%, var(--gold-2) 62%, var(--gold-3));
+      box-shadow:
+        0 12px 28px rgba(0,0,0,.35),
+        inset 0 0 0 1px rgba(0,0,0,.25);
+      text-decoration:none;
+    }
+
+    .acceptBtn:hover{
+      transform: translateY(-2px);
+      box-shadow:
+        0 18px 36px rgba(0,0,0,.45),
+        inset 0 0 0 1px rgba(0,0,0,.25);
+    }
+
     /* Closing */
     .thanks{ text-align:center; }
     .thanks h2{ margin:0 0 10px; font-size:24px; letter-spacing:-.2px; }
@@ -351,6 +379,9 @@
       </section>
 
       <!-- Thank you -->
+      <div style="text-align:center;">
+        <a class="acceptBtn" href="#">I Accept My Ticket</a>
+      </div>
       <section class="thanks" aria-label="Thank you">
         <h2>Thank you, we’re excited to host you.</h2>
         <p>
